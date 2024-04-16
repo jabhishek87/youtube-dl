@@ -5,7 +5,6 @@ from __future__ import unicode_literals
 import itertools
 import json
 import os.path
-import random
 import re
 import traceback
 
@@ -56,6 +55,7 @@ from ..utils import (
     urlencode_postdata,
     urljoin,
 )
+import secrets
 
 
 class YoutubeBaseInfoExtractor(InfoExtractor):
@@ -268,7 +268,7 @@ class YoutubeBaseInfoExtractor(InfoExtractor):
             consent_id = self._search_regex(
                 r'PENDING\+(\d+)', consent.value, 'consent', default=None)
         if not consent_id:
-            consent_id = random.randint(100, 999)
+            consent_id = secrets.SystemRandom().randint(100, 999)
         self._set_cookie('.youtube.com', 'CONSENT', 'YES+cb.20210328-17-p0.en+FX+%s' % consent_id)
 
     def _real_initialize(self):
@@ -1739,7 +1739,7 @@ class YoutubeIE(YoutubeBaseInfoExtractor):
         # cpn generation algorithm is reverse engineered from base.js.
         # In fact it works even with dummy cpn.
         CPN_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_'
-        cpn = ''.join((CPN_ALPHABET[random.randint(0, 256) & 63] for _ in range(0, 16)))
+        cpn = ''.join((CPN_ALPHABET[secrets.SystemRandom().randint(0, 256) & 63] for _ in range(0, 16)))
 
         playback_url = update_url(
             playback_url, query_update={

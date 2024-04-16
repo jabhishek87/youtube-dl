@@ -1,6 +1,4 @@
 from __future__ import unicode_literals
-
-import random
 import re
 import string
 
@@ -8,6 +6,7 @@ from .discoverygo import DiscoveryGoBaseIE
 from ..compat import compat_urllib_parse_unquote
 from ..utils import ExtractorError
 from ..compat import compat_HTTPError
+import secrets
 
 
 class DiscoveryIE(DiscoveryGoBaseIE):
@@ -81,7 +80,7 @@ class DiscoveryIE(DiscoveryGoBaseIE):
                 'Downloading token JSON metadata', query={
                     'authRel': 'authorization',
                     'client_id': '3020a40c2356a645b4b4',
-                    'nonce': ''.join([random.choice(string.ascii_letters) for _ in range(32)]),
+                    'nonce': ''.join([secrets.choice(string.ascii_letters) for _ in range(32)]),
                     'redirectUri': 'https://www.discovery.com/',
                 })['access_token']
 

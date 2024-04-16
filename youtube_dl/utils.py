@@ -24,7 +24,6 @@ import math
 import operator
 import os
 import platform
-import random
 import re
 import socket
 import ssl
@@ -78,6 +77,7 @@ from .socks import (
     ProxyType,
     sockssocket,
 )
+import secrets
 
 
 def register_socks_protocols():
@@ -1673,7 +1673,7 @@ def random_user_agent():
         '70.0.3513.0',
         '69.0.3497.28',
     )
-    return _USER_AGENT_TPL % random.choice(_CHROME_VERSIONS)
+    return _USER_AGENT_TPL % secrets.choice(_CHROME_VERSIONS)
 
 
 std_headers = {
@@ -4320,7 +4320,7 @@ def multipart_encode(data, boundary=None):
 
     while True:
         if boundary is None:
-            boundary = '---------------' + str(random.randrange(0x0fffffff, 0xffffffff))
+            boundary = '---------------' + str(secrets.SystemRandom().randrange(0x0fffffff, 0xffffffff))
 
         try:
             out, content_type = _multipart_encode_impl(data, boundary)
@@ -5814,7 +5814,7 @@ class GeoUtils(object):
         addr_min = compat_struct_unpack('!L', socket.inet_aton(addr))[0]
         addr_max = addr_min | (0xffffffff >> int(preflen))
         return compat_str(socket.inet_ntoa(
-            compat_struct_pack('!L', random.randint(addr_min, addr_max))))
+            compat_struct_pack('!L', secrets.SystemRandom().randint(addr_min, addr_max))))
 
 
 class PerRequestProxyHandler(compat_urllib_request.ProxyHandler):
@@ -5921,7 +5921,7 @@ def pkcs1pad(data, length):
     if len(data) > length - 11:
         raise ValueError('Input data too long for PKCS#1 padding')
 
-    pseudo_random = [random.randint(0, 254) for _ in range(length - len(data) - 3)]
+    pseudo_random = [secrets.SystemRandom().randint(0, 254) for _ in range(length - len(data) - 3)]
     return [0, 2] + pseudo_random + [0] + data
 
 
@@ -6181,7 +6181,7 @@ def write_xattr(path, key, value):
 def random_birthday(year_field, month_field, day_field):
     start_date = datetime.date(1950, 1, 1)
     end_date = datetime.date(1995, 12, 31)
-    offset = random.randint(0, (end_date - start_date).days)
+    offset = secrets.SystemRandom().randint(0, (end_date - start_date).days)
     random_date = start_date + datetime.timedelta(offset)
     return {
         year_field: str(random_date.year),

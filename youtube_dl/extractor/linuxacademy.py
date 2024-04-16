@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import json
-import random
 import re
 
 from .common import InfoExtractor
@@ -20,6 +19,7 @@ from ..utils import (
     urlencode_postdata,
     urljoin,
 )
+import secrets
 
 
 class LinuxAcademyIE(InfoExtractor):
@@ -76,7 +76,7 @@ class LinuxAcademyIE(InfoExtractor):
 
         def random_string():
             return ''.join([
-                random.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._~')
+                secrets.choice('0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._~')
                 for _ in range(32)])
 
         webpage, urlh = self._download_webpage_handle(

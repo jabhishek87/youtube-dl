@@ -4,7 +4,6 @@ import os
 import re
 import sys
 import time
-import random
 
 from ..compat import compat_os_name
 from ..utils import (
@@ -15,6 +14,7 @@ from ..utils import (
     shell_quote,
     timeconvert,
 )
+import secrets
 
 
 class FileDownloader(object):
@@ -370,7 +370,7 @@ class FileDownloader(object):
         min_sleep_interval = self.params.get('sleep_interval')
         if min_sleep_interval:
             max_sleep_interval = self.params.get('max_sleep_interval', min_sleep_interval)
-            sleep_interval = random.uniform(min_sleep_interval, max_sleep_interval)
+            sleep_interval = secrets.SystemRandom().uniform(min_sleep_interval, max_sleep_interval)
             self.to_screen(
                 '[download] Sleeping %s seconds...' % (
                     int(sleep_interval) if sleep_interval.is_integer()

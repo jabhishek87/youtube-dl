@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from .common import InfoExtractor
 
 import json
-import random
 import re
 
 from ..compat import (
@@ -16,6 +15,7 @@ from ..utils import (
     strip_jsonp,
     urlencode_postdata,
 )
+import secrets
 
 
 class WeiboIE(InfoExtractor):
@@ -67,7 +67,7 @@ class WeiboIE(InfoExtractor):
                     'c': cnfd,
                     'cb': 'cross_domain',
                     'from': 'weibo',
-                    '_rand': random.random(),
+                    '_rand': secrets.SystemRandom().random(),
                 })
 
             webpage = self._download_webpage(

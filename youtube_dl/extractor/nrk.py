@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 import itertools
-import random
 import re
 
 from .common import InfoExtractor
@@ -17,6 +16,7 @@ from ..utils import (
     urljoin,
     url_or_none,
 )
+import secrets
 
 
 class NRKBaseIE(InfoExtractor):
@@ -36,7 +36,7 @@ class NRKBaseIE(InfoExtractor):
             asset_url, video_id, 'mp4', 'm3u8_native', fatal=False)
         if not formats and re.search(self._CDN_REPL_REGEX, asset_url):
             formats = self._extract_m3u8_formats(
-                re.sub(self._CDN_REPL_REGEX, '://nrk-od-%02d.akamaized.net/no/' % random.randint(0, 99), asset_url),
+                re.sub(self._CDN_REPL_REGEX, '://nrk-od-%02d.akamaized.net/no/' % secrets.SystemRandom().randint(0, 99), asset_url),
                 video_id, 'mp4', 'm3u8_native', fatal=False)
         return formats
 

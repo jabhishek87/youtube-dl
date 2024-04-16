@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 import hashlib
-import random
 
 from ..compat import compat_str
 from .common import InfoExtractor
@@ -11,6 +10,7 @@ from ..utils import (
     int_or_none,
     try_get,
 )
+import secrets
 
 
 class JamendoIE(InfoExtractor):
@@ -50,7 +50,7 @@ class JamendoIE(InfoExtractor):
 
     def _call_api(self, resource, resource_id):
         path = '/api/%ss' % resource
-        rand = compat_str(random.random())
+        rand = compat_str(secrets.SystemRandom().random())
         return self._download_json(
             'https://www.jamendo.com' + path, resource_id, query={
                 'id[]': resource_id,

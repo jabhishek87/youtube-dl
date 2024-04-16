@@ -1,7 +1,5 @@
 # coding: utf-8
 from __future__ import unicode_literals
-
-import random
 import re
 import string
 import time
@@ -14,6 +12,7 @@ from ..utils import (
     str_or_none,
     strip_jsonp,
 )
+import secrets
 
 
 class YoukuIE(InfoExtractor):
@@ -123,7 +122,7 @@ class YoukuIE(InfoExtractor):
     @staticmethod
     def get_ysuid():
         return '%d%s' % (int(time.time()), ''.join([
-            random.choice(string.ascii_letters) for i in range(3)]))
+            secrets.choice(string.ascii_letters) for i in range(3)]))
 
     def get_format_name(self, fm):
         _dict = {
