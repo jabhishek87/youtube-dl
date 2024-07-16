@@ -2,12 +2,12 @@
 from __future__ import unicode_literals
 
 import binascii
-import random
 import re
 import string
 
 from .common import InfoExtractor
 from ..utils import urljoin, url_basename
+import secrets
 
 
 def to_ascii_hex(str1):
@@ -15,7 +15,7 @@ def to_ascii_hex(str1):
 
 
 def generate_random_string(length):
-    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
+    return ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(length))
 
 
 class StreamsbIE(InfoExtractor):

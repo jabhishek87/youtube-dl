@@ -5,7 +5,6 @@ from base64 import b64encode
 from binascii import hexlify
 from datetime import datetime
 from hashlib import md5
-from random import randint
 import json
 import re
 import time
@@ -28,6 +27,7 @@ from ..utils import (
     std_headers,
     try_get,
 )
+import secrets
 
 
 class NetEaseMusicBaseIE(InfoExtractor):
@@ -52,7 +52,7 @@ class NetEaseMusicBaseIE(InfoExtractor):
         KEY = b'e82ckenh8dichen8'
         URL = '/api/song/enhance/player/url'
         now = int(time.time() * 1000)
-        rand = randint(0, 1000)
+        rand = secrets.SystemRandom().randint(0, 1000)
         cookie = {
             'osver': None,
             'deviceId': None,

@@ -1,7 +1,5 @@
 # coding: utf-8
 from __future__ import unicode_literals
-
-import random
 import re
 import string
 
@@ -22,6 +20,7 @@ from ..compat import (
     compat_struct_pack,
     compat_urlparse,
 )
+import secrets
 
 
 class VideaIE(InfoExtractor):
@@ -131,7 +130,7 @@ class VideaIE(InfoExtractor):
             result += s[i - (self._STATIC_SECRET.index(l[i]) - 31)]
 
         query = compat_urlparse.parse_qs(compat_urlparse.urlparse(player_url).query)
-        random_seed = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
+        random_seed = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(8))
         query['_s'] = random_seed
         query['_t'] = result[:16]
 

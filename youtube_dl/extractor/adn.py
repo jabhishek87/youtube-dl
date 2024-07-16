@@ -5,7 +5,6 @@ import base64
 import binascii
 import json
 import os
-import random
 
 from .common import InfoExtractor
 from ..aes import aes_cbc_decrypt
@@ -28,6 +27,7 @@ from ..utils import (
     unified_strdate,
     urlencode_postdata,
 )
+import secrets
 
 
 class ADNIE(InfoExtractor):
@@ -182,7 +182,7 @@ Format: Marked,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text'''
             }, data=b'')['token']
 
         links_url = try_get(options, lambda x: x['video']['url']) or (video_base_url + 'link')
-        self._K = ''.join([random.choice('0123456789abcdef') for _ in range(16)])
+        self._K = ''.join([secrets.choice('0123456789abcdef') for _ in range(16)])
         message = bytes_to_intlist(json.dumps({
             'k': self._K,
             't': token,

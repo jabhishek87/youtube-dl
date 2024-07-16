@@ -1,7 +1,5 @@
 # coding: utf-8
 from __future__ import unicode_literals
-
-import random
 import string
 
 from .common import InfoExtractor
@@ -13,6 +11,7 @@ from ..utils import (
     ExtractorError,
     urlencode_postdata
 )
+import secrets
 
 
 class FunimationIE(InfoExtractor):
@@ -117,7 +116,7 @@ class FunimationIE(InfoExtractor):
             sources = self._download_json(
                 'https://www.funimation.com/api/showexperience/%s/' % video_id,
                 video_id, headers=headers, query={
-                    'pinst_id': ''.join([random.choice(string.digits + string.ascii_letters) for _ in range(8)]),
+                    'pinst_id': ''.join([secrets.choice(string.digits + string.ascii_letters) for _ in range(8)]),
                 })['items']
         except ExtractorError as e:
             if isinstance(e.cause, compat_HTTPError) and e.cause.code == 403:

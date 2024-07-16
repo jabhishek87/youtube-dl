@@ -2,7 +2,6 @@
 from __future__ import unicode_literals
 
 import hashlib
-import random
 import re
 import time
 
@@ -15,6 +14,7 @@ from ..utils import (
     try_get,
     urlencode_postdata,
 )
+import secrets
 
 
 class NexxIE(InfoExtractor):
@@ -317,8 +317,8 @@ class NexxIE(InfoExtractor):
         if not video:
             # Reverse engineered from JS code (see getDeviceID function)
             device_id = '%d:%d:%d%d' % (
-                random.randint(1, 4), int(time.time()),
-                random.randint(1e4, 99999), random.randint(1, 9))
+                secrets.SystemRandom().randint(1, 4), int(time.time()),
+                secrets.SystemRandom().randint(1e4, 99999), secrets.SystemRandom().randint(1, 9))
 
             result = self._call_api(domain_id, 'session/init', video_id, data={
                 'nxp_devh': device_id,

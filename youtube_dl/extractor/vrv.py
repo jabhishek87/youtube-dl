@@ -5,7 +5,6 @@ import base64
 import json
 import hashlib
 import hmac
-import random
 import string
 import time
 
@@ -20,6 +19,7 @@ from ..utils import (
     float_or_none,
     int_or_none,
 )
+import secrets
 
 
 class VRVBaseIE(InfoExtractor):
@@ -34,7 +34,7 @@ class VRVBaseIE(InfoExtractor):
         base_url = self._API_DOMAIN + '/core/' + path
         query = [
             ('oauth_consumer_key', self._API_PARAMS['oAuthKey']),
-            ('oauth_nonce', ''.join([random.choice(string.ascii_letters) for _ in range(32)])),
+            ('oauth_nonce', ''.join([secrets.choice(string.ascii_letters) for _ in range(32)])),
             ('oauth_signature_method', 'HMAC-SHA1'),
             ('oauth_timestamp', int(time.time())),
         ]

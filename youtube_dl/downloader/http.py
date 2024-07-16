@@ -4,7 +4,6 @@ import errno
 import os
 import socket
 import time
-import random
 import re
 
 from .common import FileDownloader
@@ -22,6 +21,7 @@ from ..utils import (
     XAttrMetadataError,
     XAttrUnavailableError,
 )
+import secrets
 
 
 class HttpFD(FileDownloader):
@@ -84,7 +84,7 @@ class HttpFD(FileDownloader):
             req.add_header('Range', range_header)
 
         def establish_connection():
-            ctx.chunk_size = (random.randint(int(chunk_size * 0.95), chunk_size)
+            ctx.chunk_size = (secrets.SystemRandom().randint(int(chunk_size * 0.95), chunk_size)
                               if not is_test and chunk_size else chunk_size)
             if ctx.resume_len > 0:
                 range_start = ctx.resume_len

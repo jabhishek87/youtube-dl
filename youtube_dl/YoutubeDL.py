@@ -22,7 +22,7 @@ import sys
 import time
 import tokenize
 import traceback
-import random
+import secrets
 
 try:
     from ssl import OPENSSL_VERSION
@@ -748,7 +748,7 @@ class YoutubeDL(object):
             # correspondingly that is not what we want since we need to keep
             # '%%' intact for template dict substitution step. Working around
             # with boundary-alike separator hack.
-            sep = ''.join([random.choice(ascii_letters) for _ in range(32)])
+            sep = ''.join([secrets.choice(ascii_letters) for _ in range(32)])
             outtmpl = outtmpl.replace('%%', '%{0}%'.format(sep)).replace('$$', '${0}$'.format(sep))
 
             # outtmpl should be expand_path'ed before template dict substitution
@@ -1154,7 +1154,7 @@ class YoutubeDL(object):
             entries = entries[::-1]
 
         if self.params.get('playlistrandom', False):
-            random.shuffle(entries)
+            secrets.SystemRandom().shuffle(entries)
 
         x_forwarded_for = ie_result.get('__x_forwarded_for_ip')
 

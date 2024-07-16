@@ -8,7 +8,6 @@ import hashlib
 import json
 import netrc
 import os
-import random
 import re
 import socket
 import ssl
@@ -89,6 +88,7 @@ from ..utils import (
     xpath_text,
     xpath_with_ns,
 )
+import secrets
 
 
 class InfoExtractor(object):
@@ -526,7 +526,7 @@ class InfoExtractor(object):
             if not ip_block:
                 ip_blocks = geo_bypass_context.get('ip_blocks')
                 if self._GEO_BYPASS and ip_blocks:
-                    ip_block = random.choice(ip_blocks)
+                    ip_block = secrets.choice(ip_blocks)
 
             if ip_block:
                 self._x_forwarded_for_ip = GeoUtils.random_ipv4(ip_block)
@@ -547,7 +547,7 @@ class InfoExtractor(object):
             if not country:
                 countries = geo_bypass_context.get('countries')
                 if self._GEO_BYPASS and countries:
-                    country = random.choice(countries)
+                    country = secrets.choice(countries)
 
             if country:
                 self._x_forwarded_for_ip = GeoUtils.random_ipv4(country)
@@ -583,7 +583,7 @@ class InfoExtractor(object):
                 and self._downloader.params.get('geo_bypass', True)
                 and not self._x_forwarded_for_ip
                 and countries):
-            country_code = random.choice(countries)
+            country_code = secrets.choice(countries)
             self._x_forwarded_for_ip = GeoUtils.random_ipv4(country_code)
             if self._x_forwarded_for_ip:
                 self.report_warning(

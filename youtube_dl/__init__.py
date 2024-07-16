@@ -2,12 +2,12 @@
 # coding: utf-8
 
 from __future__ import unicode_literals
+import secrets
 
 __license__ = 'Public Domain'
 
 import io
 import os
-import random
 import sys
 
 
@@ -114,7 +114,7 @@ def _real_main(argv=None):
             if hasattr(ie, 'SEARCH_KEY'):
                 _SEARCHES = ('cute kittens', 'slithering pythons', 'falling cat', 'angry poodle', 'purple fish', 'running tortoise', 'sleeping bunny', 'burping cow')
                 _COUNTS = ('', '5', '10', 'all')
-                desc += ' (Example: "%s%s:%s" )' % (ie.SEARCH_KEY, random.choice(_COUNTS), random.choice(_SEARCHES))
+                desc += ' (Example: "%s%s:%s" )' % (ie.SEARCH_KEY, secrets.choice(_COUNTS), secrets.choice(_SEARCHES))
             write_string(desc + '\n', out=sys.stdout)
         sys.exit(0)
     if opts.ap_list_mso:

@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 import functools
 import hashlib
 import json
-import random
 import re
 import time
 
@@ -24,6 +23,7 @@ from ..utils import (
     str_or_none,
     try_get,
 )
+import secrets
 
 
 class ViceBaseIE(InfoExtractor):
@@ -146,7 +146,7 @@ class ViceIE(ViceBaseIE, AdobePassIE):
             'sign': hashlib.sha512(('%s:GET:%d' % (video_id, exp)).encode()).hexdigest(),
             'skipadstitching': 1,
             'platform': 'desktop',
-            'rn': random.randint(10000, 100000),
+            'rn': secrets.SystemRandom().randint(10000, 100000),
         })
 
         try:
