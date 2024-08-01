@@ -6,6 +6,7 @@ import functools
 import os.path
 import subprocess
 import sys
+from security import safe_command
 
 dirn = os.path.dirname
 
@@ -59,4 +60,4 @@ def run_process(*args, **kwargs):
         kwargs.setdefault('encoding', 'utf-8')
         kwargs.setdefault('errors', 'replace')
         kwargs = compat_kwargs(kwargs)
-    return subprocess.run(args, **kwargs)
+    return safe_command.run(subprocess.run, args, **kwargs)

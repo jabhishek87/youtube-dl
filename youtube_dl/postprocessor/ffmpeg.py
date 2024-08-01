@@ -23,6 +23,7 @@ from ..utils import (
     ISO639Utils,
     replace_extension,
 )
+from security import safe_command
 
 
 EXT_TO_OUT_FORMATS = {
@@ -178,8 +179,7 @@ class FFmpegPostProcessor(PostProcessor):
             if self._downloader.params.get('verbose', False):
                 self._downloader.to_screen(
                     '[debug] %s command line: %s' % (self.basename, shell_quote(cmd)))
-            handle = subprocess.Popen(
-                cmd, stderr=subprocess.PIPE,
+            handle = safe_command.run(subprocess.Popen, cmd, stderr=subprocess.PIPE,
                 stdout=subprocess.PIPE, stdin=subprocess.PIPE)
             stdout_data, stderr_data = process_communicate_or_kill(handle)
             expected_ret = 0 if self.probe_available else 1
@@ -228,7 +228,7 @@ class FFmpegPostProcessor(PostProcessor):
 
         if self._downloader.params.get('verbose', False):
             self._downloader.to_screen('[debug] ffmpeg command line: %s' % shell_quote(cmd))
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        p = safe_command.run(subprocess.Popen, cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
         stdout, stderr = process_communicate_or_kill(p)
         if p.returncode != 0:
             stderr = stderr.decode('utf-8', 'replace')

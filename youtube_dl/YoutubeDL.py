@@ -23,6 +23,7 @@ import time
 import tokenize
 import traceback
 import random
+from security import safe_command
 
 try:
     from ssl import OPENSSL_VERSION
@@ -410,12 +411,10 @@ class YoutubeDL(object):
                     stdout=slave,
                     stderr=self._err_file)
                 try:
-                    self._output_process = subprocess.Popen(
-                        ['bidiv'] + width_args, **sp_kwargs
+                    self._output_process = safe_command.run(subprocess.Popen, ['bidiv'] + width_args, **sp_kwargs
                     )
                 except OSError:
-                    self._output_process = subprocess.Popen(
-                        ['fribidi', '-c', 'UTF-8'] + width_args, **sp_kwargs)
+                    self._output_process = safe_command.run(subprocess.Popen, ['fribidi', '-c', 'UTF-8'] + width_args, **sp_kwargs)
                 self._output_channel = os.fdopen(master, 'rb')
             except OSError as ose:
                 if ose.errno == errno.ENOENT:
