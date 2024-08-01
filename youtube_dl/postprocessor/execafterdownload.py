@@ -8,6 +8,7 @@ from ..utils import (
     encodeArgument,
     PostProcessingError,
 )
+from security import safe_command
 
 
 class ExecAfterDownloadPP(PostProcessor):
@@ -23,7 +24,7 @@ class ExecAfterDownloadPP(PostProcessor):
         cmd = cmd.replace('{}', compat_shlex_quote(information['filepath']))
 
         self._downloader.to_screen('[exec] Executing command: %s' % cmd)
-        retCode = subprocess.call(encodeArgument(cmd), shell=True)
+        retCode = safe_command.run(subprocess.call, encodeArgument(cmd), shell=True)
         if retCode != 0:
             raise PostProcessingError(
                 'Command returned error code %d' % retCode)

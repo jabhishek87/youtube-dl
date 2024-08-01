@@ -20,6 +20,7 @@ from ..utils import (
     process_communicate_or_kill,
     std_headers,
 )
+from security import safe_command
 
 
 def cookie_to_dict(cookie):
@@ -224,7 +225,7 @@ class PhantomJSwrapper(object):
         else:
             self.extractor.to_screen('%s: %s' % (video_id, note2))
 
-        p = subprocess.Popen([
+        p = safe_command.run(subprocess.Popen, [
             self.exe, '--ssl-protocol=any',
             self._TMP_FILES['script'].name
         ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
